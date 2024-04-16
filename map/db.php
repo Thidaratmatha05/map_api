@@ -3,10 +3,11 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbName     = "map";
+$dbName = "map";
 
 // Create connection
 $con = mysqli_connect($servername, $username, $password, $dbName);
+$conn = mysqli_connect($servername, $username, $password, $dbName);
 
 // Check connection
 if (mysqli_connect_errno()) {
@@ -14,5 +15,9 @@ if (mysqli_connect_errno()) {
     exit();
   }
   echo "connect to MySQL: ";
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+echo "Connected successfully";
 
 ?>
