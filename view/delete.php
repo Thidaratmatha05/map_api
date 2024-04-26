@@ -1,46 +1,94 @@
-<?php
-// โหลดไฟล์การกำหนดค่าฐานข้อมูล
-include_once 'db.php'; 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Hotel</title>
+    <!-- Link to Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        .btn-secondary:hover {
+            background-color: #545b62;
+            border-color: #545b62;
+        }
+        .alert {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
 
-// ตรวจสอบว่ามีการส่งค่า place_id มาหรือไม่
-if(isset($_GET['place_id'])) {
-    // ใช้ฟังก์ชัน mysqli_real_escape_string เพื่อป้องกัน SQL Injection
-    $place_id = mysqli_real_escape_string($con, $_GET['place_id']);
+<div class="container">
+    <?php
+    // Include database configuration file
+    include_once 'db.php'; 
 
-    // สร้างคำสั่ง SQL เพื่อดึงข้อมูลโรงแรมที่ต้องการลบ
-    $sql = "SELECT * FROM hotels WHERE place_id = '$place_id'";
-    $result = mysqli_query($con, $sql);
+    // Check if place_id is provided in the URL
+    if(isset($_GET['place_id'])) {
+        // Prevent SQL Injection using mysqli_real_escape_string function
+        $place_id = mysqli_real_escape_string($con, $_GET['place_id']);
 
-    if(mysqli_num_rows($result) > 0) {
-        $row = mysqli_fetch_assoc($result);
-        $name = $row['name'];
+        // Select the hotel data to be deleted
+        $sql = "SELECT * FROM hotels WHERE place_id = '$place_id'";
+        $result = mysqli_query($con, $sql);
 
-        // แสดงข้อมูลโรงแรมที่ต้องการลบ และแสดงแบบฟอร์มยืนยันการลบ
-        echo "คุณต้องการลบโรงแรม $name หรือไม่?<br>";
-        echo '<form action="" method="post">';
-        echo '<input type="hidden" name="place_id" value="' . $place_id . '">';
-        echo '<input type="submit" name="confirm_delete" value="ยืนยัน">';
-        echo '</form>';
-        
-        // ถ้าผู้ใช้กดยืนยันการลบ
-        if(isset($_POST['confirm_delete'])) {
-            // สร้างคำสั่ง SQL เพื่อลบข้อมูล
-            $delete_sql = "DELETE FROM hotels WHERE place_id = '$place_id'";
-            // ทำการลบข้อมูล
-            if(mysqli_query($con, $delete_sql)) {
-                echo "รายการ $name ถูกลบเรียบร้อยแล้ว";
-            } else {
-                echo "เกิดข้อผิดพลาดในการลบรายการ: " . mysqli_error($con);
+        if(mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            $name = $row['name'];
+
+            // Display the hotel data to be deleted along with a confirmation form
+            echo "<h3>คุณต้องการลบโรงแรม $name หรือไม่?</h3>";
+            echo '<form action="" method="post">';
+            echo '<input type="hidden" name="place_id" value="' . $place_id . '">';
+            echo '<input type="submit" name="confirm_delete" class="btn btn-primary" value="ยืนยัน">';
+            // Add a button to go to the homepage
+            echo '<a href="view.php" class="btn btn-secondary">Go to Homepage</a>';
+            echo '</form>';
+            
+            // If the user confirms the deletion
+            if(isset($_POST['confirm_delete'])) {
+                // Prepare SQL query for deletion
+                $delete_sql = "DELETE FROM hotels WHERE place_id = '$place_id'";
+                // Execute the deletion query
+                if(mysqli_query($con, $delete_sql)) {
+                    echo "<div class='alert alert-success'>รายการ $name ถูกลบเรียบร้อยแล้ว</div>";
+                } else {
+                    echo "<div class='alert alert-danger'>เกิดข้อผิดพลาดในการลบรายการ: " . mysqli_error($con) . "</div>";
+                }
             }
+        } else {
+            echo "<div class='alert alert-warning'>ไม่พบข้อมูลโรงแรมที่ต้องการลบ</div>";
         }
     } else {
-        echo "ไม่พบข้อมูลโรงแรมที่ต้องการลบ";
+        // If place_id is not provided in the URL
+        echo "<div class='alert alert-warning'>ไม่พบรหัสสถานที่ที่ต้องการลบ</div>";
     }
-} else {
-    // กรณีที่ไม่ได้รับค่า place_id มา
-    echo "ไม่พบรหัสสถานที่ที่ต้องการลบ";
-}
 
-// ปิดการเชื่อมต่อฐานข้อมูล
-mysqli_close($con);
-?>
+    // Close database connection
+    mysqli_close($con);
+    ?>
+</div>
+
+</body>
+</html>

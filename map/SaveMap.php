@@ -66,6 +66,7 @@ include_once 'db.php';
         </div>
         <div class="mb-3">
             <input type="submit" value="บันทึกข้อมูล" name="submit" class="btn btn-primary">
+            <a href="../view/view.php" class="btn btn-secondary">Go to Homepage</a>
         </div>
     </form>
 </div>
@@ -97,7 +98,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     VALUES ('$place_id', '$name', '$address', '$phone_number', '$latitude', '$longitude', '$first_photo_url' , '$map_url', '$website', '$uploadDate', '$image', '$writer', '$province_id')";
 
     if (mysqli_query($con, $sql)) {
-        echo "บันทึกข้อมูลสำเร็จ";
+        // echo "บันทึกข้อมูลสำเร็จ";
+        echo "<div class='alert alert-success'>รายการ $name บันทึกข้อมูลสำเร็จ</div>";
     } else {
         echo "Error: บันทึกข้อมูลไม่ได้ " . $sql . "<br>" . $conn->error;
     }

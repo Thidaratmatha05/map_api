@@ -64,7 +64,7 @@ include_once 'db.php';
                 // echo '<th>place_id</th>';
                 echo '<th>ชื่อ</th>';
                 echo '<th>รูปภาพ</th>';
-                echo '<th>จังหวัด</th>';
+                // echo '<th>จังหวัด</th>';
                 echo '<th>วันที่อัพโหลด</th>';
                 echo '<th>แก้ไข/ลบ</th>';
                 echo '</tr>';
@@ -84,7 +84,7 @@ include_once 'db.php';
                     // echo "<td>" . $row["place_id"] . "</td>";
                     echo "<td>" . $row["name"] . "</td>";
                     echo "<td><img src='" . $row["first_photo_url"] . "' style='width: 100px; height: auto;' /></td>";
-                    echo "<td>" . $row["province"] . "</td>";
+                    // echo "<td>" . $row["province"] . "</td>";
                     echo "<td>" . $row["uploadDate"] . "</td>";
                     // เพิ่มปุ่มแก้ไขและลบ
                     echo '<td><a href="edit.php?place_id=' . $row["place_id"] . '" class="btn btn-primary">แก้ไข</a>

@@ -30,6 +30,10 @@ include_once 'db.php';
     <?php echo '<p class="text-center"> จำนวนข้อมูลทั้งหมด : '.$total_rows.'</p>'; ?>
 
     <br>
+    <a href="..\map\SaveMap.php" class="btn btn-success">Save Map</a>
+    <a href="..\map\MapSaveName.php" class="btn btn-success">Map Save Name</a>
+    <a href="..\map\MapSaveAll.php" class="btn btn-success">Map Save All</a>
+    <a href="search.php" class="btn btn-secondary">search</a>
 
     <br>
     <h2>ข้อมูลที่ดึงมาจากฐานข้อมูล</h2> 
